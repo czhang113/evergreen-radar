@@ -42,6 +42,15 @@ def action_badge(action: str) -> str:
     )
 
 
+def stat_block(label: str, value: str) -> str:
+    return (
+        "<div style='min-width:0'>"
+        f"<div style='font-size:0.82rem;color:#4a5568'>{label}</div>"
+        f"<div style='font-size:1.35rem;font-weight:700;line-height:1.25'>{value}</div>"
+        "</div>"
+    )
+
+
 def format_table(df):
     return df.assign(
         动作=df["action"].map(ACTION_LABELS).fillna(df["action"]),
@@ -150,11 +159,17 @@ else:
     st.subheader(view_mode)
     for _, row in filtered.iterrows():
         with st.container(border=True):
-            top = st.columns([1.2, 2.2, 1, 1, 1])
+            top = st.columns([1.1, 2.2, 1.15, 1.35, 0.8])
             top[0].markdown(f"### {row['symbol']}")
             top[1].markdown(f"**{row['name']}**  \n{row['group']} / {row['account']}")
-            top[2].metric("现价", f"{row['price']:.2f}" if row["price"] else "-")
-            top[3].metric("MA500偏离", f"{row['deviation']:+.1f}%" if row["ma500"] else "-")
+            top[2].markdown(
+                stat_block("现价", f"{row['price']:.2f}" if row["price"] else "-"),
+                unsafe_allow_html=True,
+            )
+            top[3].markdown(
+                stat_block("MA500偏离", f"{row['deviation']:+.1f}%" if row["ma500"] else "-"),
+                unsafe_allow_html=True,
+            )
             top[4].markdown(action_badge(row["action"]), unsafe_allow_html=True)
             st.write(row["comment"])
             if row["note"]:
