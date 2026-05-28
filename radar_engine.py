@@ -183,10 +183,25 @@ def analyze_ticker(
         deviation = ((price - ma500) / ma500 * 100) if ma500 > 0 else 0.0
         money_flow = (price - last_open) * volume
 
-        info = ticker.get_info()
-        div_yield = float(info.get("trailingAnnualDividendYield") or 0) * 100
-        pe = float(info.get("trailingPE") or 0)
-        market_cap = float(info.get("marketCap") or 0)
+        div_yield = 0.0
+        pe = 0.0
+        market_cap = 0.0
+
+        # Yahoo's quoteSummary endpoint is less reliable on Streamlit Cloud,
+        # especially for futures, indexes, FX pairs, and some Canadian tickers.
+        # Keep the MA500 radar usable even when fundamentals are unavailable.
+        if group != "宏观天气台":
+            try:
+                info = ticker.get_info()
+                div_yield = float(info.get("trailingAnnualDividendYield") or 0) * 100
+                pe = float(info.get("trailingPE") or 0)
+                market_cap = float(info.get("marketCap") or 0)
+            except Exception:
+                try:
+                    fast_info = ticker.fast_info
+                    market_cap = float(getattr(fast_info, "market_cap", 0) or 0)
+                except Exception:
+                    pass
 
         action, comment = get_action_and_comment(
             symbol=symbol,
