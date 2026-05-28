@@ -95,6 +95,10 @@ groups:
       name: "微软 云+AI"
       account: "US"
       note: "B端黏性最强，商业化最稳健"
+    AAPL:
+      name: "苹果 消费电子"
+      account: "US"
+      note: "品牌、生态、回购"
     GOOGL:
       name: "谷歌 搜索+云"
       account: "US"
