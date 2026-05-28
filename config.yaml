@@ -1,0 +1,146 @@
+app:
+  title: "资产长青雷达"
+  subtitle: "MA500 价格温度 + 持仓护甲 + 观察名单触发"
+  cache_ttl_seconds: 3600
+
+user_positions:
+  HXQ.TO:
+    avg_price: 97.03
+    max_weight: 0.18
+    note: "非注册账户，Swap 延税"
+  UNH:
+    avg_price: 277.00
+    max_weight: 0.08
+    note: "重点跟踪赔付率、监管、会员增长"
+
+macro:
+  ^VIX:
+    name: "VIX 恐慌指数"
+    account: "-"
+    note: ">25 = 机会来临"
+  BZ=F:
+    name: "布伦特原油 Brent"
+    account: "-"
+    note: "<75 = 周期资产启动"
+  GC=F:
+    name: "黄金期货 Gold"
+    account: "-"
+    note: "避险/通胀温度计"
+  CAD=X:
+    name: "美元/加元 USD/CAD"
+    account: "-"
+    note: "<1.34 = 换汇入金窗口"
+
+groups:
+  "ETF 核心仓":
+    VFV.TO:
+      name: "标普500 加元计价"
+      account: "TFSA/FHSA/非注册"
+      note: "核心指数，跨账户部署"
+    QQC.TO:
+      name: "纳指100 加元计价"
+      account: "TFSA/FHSA"
+      note: "成长仓，跨账户部署"
+    HXQ.TO:
+      name: "纳指100 Swap 延税"
+      account: "非注册"
+      note: "用户已持有，均价 97.03"
+
+  "加拿大个股":
+    RY.TO:
+      name: "RBC 皇家银行"
+      account: "CA"
+      note: "最强加拿大银行，北美双轨"
+    ENB.TO:
+      name: "Enbridge 管道"
+      account: "CA"
+      note: "过路费模式，通胀联动股息"
+    FTS.TO:
+      name: "Fortis 监管电力"
+      account: "CA"
+      note: "50年连续股息增长，极度稳定"
+
+  "美股核心护城河":
+    V:
+      name: "Visa 支付过路费"
+      account: "US"
+      note: "最轻资产最宽护城河"
+    COST:
+      name: "好市多 会员制"
+      account: "US"
+      note: "会员费才是真护城河"
+    MCD:
+      name: "麦当劳 地产+品牌"
+      account: "US"
+      note: "本质是地产公司套餐饮壳"
+    WM:
+      name: "Waste Management 垃圾寡头"
+      account: "US"
+      note: "区域垄断，CPI自动转嫁"
+    BRK-B:
+      name: "伯克希尔 现金堡垒"
+      account: "US"
+      note: "纪律严明的现金配置机器"
+    KO:
+      name: "可口可乐 永久持有"
+      account: "US"
+      note: "收息，不需要管理"
+    UNH:
+      name: "联合健康 医疗保险"
+      account: "US"
+      note: "用户持仓，均价 277，需持续跟踪基本面"
+
+  "美股质量成长":
+    MSFT:
+      name: "微软 云+AI"
+      account: "US"
+      note: "B端黏性最强，商业化最稳健"
+    GOOGL:
+      name: "谷歌 搜索+云"
+      account: "US"
+      note: "大科技中估值较低"
+    LLY:
+      name: "礼来 GLP-1"
+      account: "US"
+      note: "十年赛道，定价权极强"
+    PG:
+      name: "宝洁 必需消费"
+      account: "US"
+      note: "定价权之王，衰退期防御首选"
+
+  "观察名单":
+    INTU:
+      name: "Intuit Quickbooks"
+      account: "US"
+      note: "质量极高，估值长期偏贵，等 MA500 -15%"
+      watch_trigger:
+        type: "ma500_below"
+        value: -15
+    CTAS:
+      name: "Cintas 工作服租赁"
+      account: "US"
+      note: "隐形高 ROE，等错杀"
+      watch_trigger:
+        type: "ma500_below"
+        value: -12
+    OXY:
+      name: "西方石油"
+      account: "US"
+      note: "等油价 < 70 触发"
+      watch_trigger:
+        type: "brent_below"
+        value: 70
+    USB:
+      name: "US Bancorp 区域银行"
+      account: "US"
+      note: "稳健银行，等系统性低估"
+      watch_trigger:
+        type: "ma500_below"
+        value: -12
+    AMZN:
+      name: "亚马逊 AWS现金牛"
+      account: "US"
+      note: "指数已覆盖，单独建仓等 MA500 -10%"
+      watch_trigger:
+        type: "ma500_below"
+        value: -10
